@@ -1,5 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { Todo } from './models/Todo';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,8 @@ export class AppComponent {
   inputTodo:string | undefined;
 
   todos:any;
+
+  constructor(private http: HttpClient){};
 
   ngOnInit():void {
     this.todos = [
@@ -31,12 +34,21 @@ export class AppComponent {
       content:this.inputTodo,
       completed:false
     })
-    this.inputTodo = '';
-    // console.log(this.inputTodo)
+    
+    console.log(this.inputTodo)
+
+    return this.http.post(
+      'https://my-todo-77f78-default-rtdb.asia-southeast1.firebasedatabase.app/',
+      this.inputTodo
+      );
+
+
+      this.inputTodo = '';
+
   }
   
 // delte todo
-  deleteTodo (id: number){
+  deleteTodo(id: number){
     this.todos = this.todos.filter((v:any,i:any) => i !== id);
   }
 
